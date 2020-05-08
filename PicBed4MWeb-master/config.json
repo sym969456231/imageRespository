@@ -1,6 +1,6 @@
 {
-	"repo": "gaopeng-hz/images",
-	"token": "87a488ba20e1cbaefd9eb0302ab791e82e9f1a17",
-	"port": 8081,
+	"repo": "imageRespository/images",
+	"token": "c9882b80b6a9d8b7a6c30d96bbb063d46dde2223",
+	"port": 80,
 	"url": "/upload"
 }
