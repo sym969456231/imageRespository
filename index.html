@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>hello</title>
 </head>
-<body>
+<body onload="load();">
+    
+    <script type="text/javascript">
+        function myfun() 　　{ 　　 
+            alert("this window.onload"); 　　
+        } 　　
+        /*用window.onload调用myfun()*/　
+        　
+        // 不要括号
+        window.onload = myfun;
+    </script>
     
 </body>
 </html>
