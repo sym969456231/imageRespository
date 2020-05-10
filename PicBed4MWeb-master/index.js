@@ -1,8 +1,8 @@
-1const http = require('http')
+const http = require('http')
 const formidable = require('formidable')
 const config = require('./config.json')
 const getImgUrl = require('./helper.js')
-var port = config.port || 80
+var port = config.port || 8088
 const url = config.url || '/upload'
 var log4js = require('log4js')
 log4js.configure({
