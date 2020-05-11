@@ -125,24 +125,26 @@ http.createServer(function (req, res) {
           res.end()
           return console.error(err);
         }
-        process.exec(`chmod 777 ./upImage.sh`,function(err){
+        process.exec('chmod 777 ./upImage.sh',function(err){
+          console.error(err)
           if (err) {
             res.writeHead(400, {"Content-Type": "text/json"})
             res.write(err)
             res.end()
             return console.error(err);
           }
+          res.writeHead(200, {"Content-Type": "text/json"})
+          res.write(JSON.stringify(
+            {
+              'url':'https://gongkuihua.github.io/imageRespository/images/' + fileName
+            }
+          ))
+          res.end()
         })
         console.log("数据写入成功！");
         console.log("--------我是分割线-------------")
         console.log("读取写入的数据！");
-        res.writeHead(200, {"Content-Type": "text/json"})
-        res.write(JSON.stringify(
-          {
-            'url':'https://github.com/gongkuihua/imageRespository/images/' + fileName
-          }
-        ))
-        res.end()
+        
       });
       
       // fs.writeFile('./data/写入的文件.md','我是被nodejs写入的文件',function(error){
