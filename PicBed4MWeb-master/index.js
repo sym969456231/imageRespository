@@ -1,4 +1,6 @@
 const http = require('http')
+const fs = require('fs');//文件系统
+var process = require('child_process');//执行sh
 const formidable = require('formidable')
 const config = require('./config.json')
 const getImgUrl = require('./helper.js')
@@ -12,6 +14,40 @@ log4js.configure({
   ]
 })
 var log = log4js.getLogger('GithubPicBed')
+
+// function to create directory recursively
+var mkDirs = function(dirpath, mode) {
+  if (fs.existsSync(dirpath)) {
+      return;
+  } else {
+      mkDirs(path.dirname(dirpath), mode);
+      fs.mkdirSync(dirpath, mode);
+  }
+};
+
+var listDir = function(prefix, folder) {
+  let fileList = []; 
+  let files = fs.readdirSync(folder);
+  for (let i in files) {
+      let file = files[i];
+      let fileName = folder + "/" + file
+      let stats = fs.statSync(fileName);
+      if (stats.isDirectory()) {
+          fileList = fileList.concat(listDir(prefix, fileName));
+      } else {
+          fileList.push({name: fileName.replace(prefix, ""), size: stats.size});
+      }
+  }   
+  return fileList;
+}
+
+//获取随机数
+function GetRandomNum(Min,Max)
+{   
+var Range = Max - Min;   
+var Rand = Math.random();   
+return(Min + Math.round(Rand * Range));   
+}   
 
 var tasks = []
 function addTask(file, response) {
@@ -72,8 +108,51 @@ http.createServer(function (req, res) {
         res.end()
         return
       }
+      log.info(`response ${files.file.path}`)
 
-      addTask(files.file.path, res)
+      let path = files.file.path
+
+      console.log("准备写入文件");
+      let bitmap = fs.readFileSync(path)
+      let base64Img = Buffer.from(bitmap).toString('base64')
+      let fileName =  new Date().getTime() +'.jpg'; 
+      let filePath =  '../images/' + fileName; 
+      console.log(`文件名: ${filePath}`);
+      fs.writeFile(filePath, bitmap,  function(err) {
+        if (err) {
+          res.writeHead(400, {"Content-Type": "text/json"})
+          res.write(err)
+          res.end()
+          return console.error(err);
+        }
+        process.exec(`chmod 777 ./upImage.sh`,function(err){
+          if (err) {
+            res.writeHead(400, {"Content-Type": "text/json"})
+            res.write(err)
+            res.end()
+            return console.error(err);
+          }
+        })
+        console.log("数据写入成功！");
+        console.log("--------我是分割线-------------")
+        console.log("读取写入的数据！");
+        res.writeHead(200, {"Content-Type": "text/json"})
+        res.write(JSON.stringify(
+          {
+            'url':'https://github.com/gongkuihua/imageRespository/images/' + fileName
+          }
+        ))
+        res.end()
+      });
+      
+      // fs.writeFile('./data/写入的文件.md','我是被nodejs写入的文件',function(error){
+      //   if(error){
+      //     console.log('写入成功')
+      //   }else{
+      //   console.log('写入成功')
+      // });
+
+      // addTask(files.file.path, res)
     })
   } else {
       res.writeHead(404, {"Content-Type": "text/plain"})
@@ -81,4 +160,6 @@ http.createServer(function (req, res) {
       res.end()
   }
 }).listen(port)
+
+
 log.info(`app run at ${port}`)
