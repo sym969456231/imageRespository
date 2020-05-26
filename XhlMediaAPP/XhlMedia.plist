@@ -5,25 +5,22 @@
 	<key>items</key>
 	<array>
 		<dict>
+			<key>update</key>
+			<dict>
+				<key>updateContext</key>
+				<string>解决已知bug</string>
+				<key>appBuild</key>
+				<integer>1</integer>
+				<key>minappBuild</key>
+				<integer>0</integer>
+			</dict>
 			<key>assets</key>
 			<array>
 				<dict>
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://gongkuihua.github.io/imageRespository/XhlMediaAPP/XHLMedia.ipa</string>
-				</dict>
-				<dict>
-					<key>kind</key>
-					<string>display-image</string>
-					<key>url</key>
-					<string>https://gongkuihua.github.io/imageRespository/XhlMediaAPP/XhlMediaIcon57*57.png</string>
-				</dict>
-				<dict>
-					<key>kind</key>
-					<string>full-size-image</string>
-					<key>url</key>
-					<string>https://gongkuihua.github.io/imageRespository/XhlMediaAPP/XhlMediaIcon512*512.png</string>
+					<string>https://appmanager.cqnews.net/ready/ios/hlx/20200522_V1.0_1_ready.ipa</string>
 				</dict>
 			</array>
 			<key>metadata</key>
@@ -35,7 +32,7 @@
 				<key>kind</key>
 				<string>software</string>
 				<key>title</key>
-				<string>XHLMedia</string>
+				<string>华龙芯</string>
 			</dict>
 		</dict>
 	</array>
